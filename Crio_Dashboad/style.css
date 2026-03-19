@@ -32,6 +32,10 @@ body {
   overflow-x: hidden;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 /* Subtle warm texture */
 body::after {
   content: '';
@@ -990,4 +994,4 @@ footer {
   .hero-title { letter-spacing:-.8px; }
   .numbers-grid { grid-template-columns:1fr 1fr; }
   .footer-bottom { flex-direction:column; }
-}
+}   

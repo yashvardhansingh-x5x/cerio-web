@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crio.io — Admissions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="form_add.css">
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-strip"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<!-- Blobs -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<!-- Success Screen -->
+<div id="successScreen">
+  <div class="success-circle"><i class="fa-solid fa-check"></i></div>
+  <div class="success-title">You're In! 🎉</div>
+  <p class="success-sub">Your application to Crio.io has been received. Our admissions team will reach out within <strong>24 hours</strong>. Get ready to build the future.</p>
+</div>
+
+<!-- Main Layout -->
+<div class="page-wrapper">
+
+  <!-- LEFT PANEL -->
+  <aside class="panel-left">
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-code"></i></div>
+      <div class="brand-name">Crio<span>.io</span></div>
+    </div>
+
+    <div class="left-hero">
+      <h1 class="left-headline">
+        Build your<br>
+        future in <em>Tech</em><br>
+        from scratch.
+      </h1>
+      <p class="left-sub">
+        Join 50,000+ freshers who launched their IT careers with project-based, industry-ready programs.
+      </p>
+      <div class="course-tags" id="floatingTags">
+        <span class="tag active">Full-Stack Dev</span>
+        <span class="tag">Data Science</span>
+        <span class="tag">DevOps</span>
+        <span class="tag">QA Automation</span>
+        <span class="tag">Backend Eng</span>
+        <span class="tag">UI/UX Design</span>
+        <span class="tag">Cloud AWS</span>
+        <span class="tag">Cybersecurity</span>
+      </div>
+    </div>
+
+    <div class="step-list" id="stepList">
+      <div class="step-item active" data-step="1">
+        <div class="step-dot"><span>1</span></div>
+        <div class="step-text">
+          <div class="step-label">Profile</div>
+          <div class="step-desc">Photo & personal info</div>
+        </div>
+      </div>
+      <div class="step-item" data-step="2">
+        <div class="step-dot"><span>2</span></div>
+        <div class="step-text">
+          <div class="step-label">Education</div>
+          <div class="step-desc">School, college & grades</div>
+        </div>
+      </div>
+      <div class="step-item" data-step="3">
+        <div class="step-dot"><span>3</span></div>
+        <div class="step-text">
+          <div class="step-label">Program</div>
+          <div class="step-desc">Choose your course</div>
+        </div>
+      </div>
+      <div class="step-item" data-step="4">
+        <div class="step-dot"><span>4</span></div>
+        <div class="step-text">
+          <div class="step-label">Account</div>
+          <div class="step-desc">Email & password</div>
+        </div>
+      </div>
+      <div class="step-item" data-step="5">
+        <div class="step-dot"><span>5</span></div>
+        <div class="step-text">
+          <div class="step-label">Review</div>
+          <div class="step-desc">Confirm & submit</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- RIGHT PANEL -->
+  <main class="panel-right">
+
+    <!-- ===== STEP 1: PROFILE ===== -->
+    <section class="form-step active" id="step1">
+      <div class="step-header anim-up">
+        <div class="step-eyebrow">Step 1 of 5</div>
+        <h2 class="step-title">Let's start with<br>your profile</h2>
+        <p class="step-subtitle">Upload your photo and tell us a bit about yourself.</p>
+      </div>
+
+      <!-- Photo upload -->
+      <div class="photo-upload anim-up">
+        <div class="photo-ring" id="photoRing" onclick="document.getElementById('photoInput').click()">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110' viewBox='0 0 110 110'%3E%3Ccircle cx='55' cy='55' r='55' fill='%23ecddd0'/%3E%3Ccircle cx='55' cy='42' r='18' fill='%238a7f78'/%3E%3Cellipse cx='55' cy='88' rx='28' ry='20' fill='%238a7f78'/%3E%3C/svg%3E" id="photoPreview" class="photo-avatar" alt="Upload photo">
+          <div class="photo-overlay"><i class="fa-solid fa-camera"></i></div>
+          <div class="photo-badge"><i class="fa-solid fa-plus"></i></div>
+        </div>
+        <input type="file" id="photoInput" accept="image/*">
+        <div class="photo-label">
+          <strong>Upload Your Photo</strong>
+          Click to browse · JPG, PNG · Max 5MB
+        </div>
+      </div>
+
+      <div class="field-row two anim-up">
+        <div class="field" id="f-fname">
+          <label for="firstName">First Name</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-user icon"></i>
+            <input type="text" id="firstName" placeholder="Rahul" autocomplete="given-name">
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+          <span class="field-hint">As on your ID card</span>
+        </div>
+        <div class="field" id="f-lname">
+          <label for="lastName">Last Name</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-user icon"></i>
+            <input type="text" id="lastName" placeholder="Sharma">
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row anim-up">
+        <div class="field" id="f-phone">
+          <label for="phone">Mobile Number</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-phone icon"></i>
+            <input type="tel" id="phone" placeholder="+91 98765 43210" maxlength="15">
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row two anim-up">
+        <div class="field" id="f-dob">
+          <label for="dob">Date of Birth</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-calendar icon"></i>
+            <input type="date" id="dob">
+          </div>
+        </div>
+        <div class="field" id="f-gender">
+          <label for="gender">Gender</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-venus-mars icon"></i>
+            <select id="gender">
+              <option value="" disabled selected>Select gender</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Non-binary</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row anim-up">
+        <div class="field" id="f-address">
+          <label for="address">Current City / Address</label>
+          <div class="input-wrap" style="align-items: flex-start">
+            <i class="fa-solid fa-location-dot icon" style="top:14px; position:absolute"></i>
+            <textarea id="address" class="no-icon" style="padding-left:42px" placeholder="Bangalore, Karnataka, India" rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row anim-up">
+        <span></span>
+        <button class="btn btn-primary" onclick="goToStep(2)">
+          Next: Education <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 2: EDUCATION ===== -->
+    <section class="form-step" id="step2">
+      <div class="step-header anim-up">
+        <div class="step-eyebrow">Step 2 of 5</div>
+        <h2 class="step-title">Your education<br>background</h2>
+        <p class="step-subtitle">Fill in your schooling and college details accurately.</p>
+      </div>
+
+      <div class="section-divider anim-up"><span>Secondary Education (10th)</span></div>
+
+      <div class="field-row anim-up">
+        <div class="field" id="f-school">
+          <label for="schoolName">School Name</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-school icon"></i>
+            <input type="text" id="schoolName" placeholder="Delhi Public School, Noida">
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+        </div>
+      </div>
+      <div class="field-row two anim-up">
+        <div class="field" id="f-board10">
+          <label for="board10">Board</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-landmark icon"></i>
+            <select id="board10">
+              <option value="" disabled selected>Select board</option>
+              <option>CBSE</option>
+              <option>ICSE</option>
+              <option>State Board</option>
+              <option>IB</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" id="f-percent10">
+          <label for="percent10">Percentage / CGPA</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-percent icon"></i>
+            <input type="text" id="percent10" placeholder="e.g. 87.5% or 9.2 CGPA">
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+        </div>
+      </div>
+      <div class="field-row anim-up">
+        <div class="field" id="f-year10">
+          <label for="year10">Year of Passing</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-calendar-check icon"></i>
+            <select id="year10">
+              <option value="" disabled selected>Select year</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider anim-up"><span>Senior Secondary (12th)</span></div>
+
+      <div class="field-row anim-up">
+        <div class="field" id="f-school12">
+          <label for="school12Name">School / Junior College Name</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-school icon"></i>
+            <input type="text" id="school12Name" placeholder="St. Xavier's Jr. College">
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+        </div>
+      </div>
+      <div class="field-row two anim-up">
+        <div class="field" id="f-stream">
+          <label for="stream">Stream</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-book icon"></i>
+            <select id="stream">
+              <option value="" disabled selected>Select stream</option>
+              <option>Science (PCM)</option>
+              <option>Science (PCB)</option>
+              <option>Commerce</option>
+              <option>Arts / Humanities</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" id="f-percent12">
+          <label for="percent12">Percentage / CGPA</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-percent icon"></i>
+            <input type="text" id="percent12" placeholder="e.g. 78% or 8.4 CGPA">
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider anim-up"><span>Graduation (UG / PG)</span></div>
+
+      <div class="field-row anim-up">
+        <div class="field" id="f-college">
+          <label for="collegeName">College / University Name</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-building-columns icon"></i>
+            <input type="text" id="collegeName" placeholder="IIT Delhi / VIT University">
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+        </div>
+      </div>
+      <div class="field-row two anim-up">
+        <div class="field" id="f-degree">
+          <label for="degree">Degree</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-graduation-cap icon"></i>
+            <select id="degree">
+              <option value="" disabled selected>Select degree</option>
+              <option>B.Tech / B.E.</option>
+              <option>BCA</option>
+              <option>BSc CS / IT</option>
+              <option>MCA</option>
+              <option>M.Tech</option>
+              <option>MBA</option>
+              <option>BBA</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" id="f-gradYear">
+          <label for="gradYear">Graduation Year</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-calendar icon"></i>
+            <select id="gradYear">
+              <option value="" disabled selected>Select year</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field-row anim-up">
+        <div class="field" id="f-cgpa">
+          <label for="cgpa">College CGPA / Percentage</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-star-half-stroke icon"></i>
+            <input type="text" id="cgpa" placeholder="e.g. 7.8 CGPA or 72%">
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row anim-up">
+        <button class="btn btn-ghost" onclick="goToStep(1)">
+          <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+        <button class="btn btn-primary" onclick="goToStep(3)">
+          Next: Program <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 3: PROGRAM ===== -->
+    <section class="form-step" id="step3">
+      <div class="step-header anim-up">
+        <div class="step-eyebrow">Step 3 of 5</div>
+        <h2 class="step-title">Choose your<br>dream program</h2>
+        <p class="step-subtitle">Pick the course that aligns with your career goal. You can switch later.</p>
+      </div>
+
+      <div class="course-grid anim-up" id="courseGrid">
+        <div class="course-card" data-course="Full-Stack Development">
+          <span class="course-icon">🖥️</span>
+          <div class="course-name">Full-Stack<br>Development</div>
+        </div>
+        <div class="course-card" data-course="Data Science & ML">
+          <span class="course-icon">🤖</span>
+          <div class="course-name">Data Science<br>& ML</div>
+        </div>
+        <div class="course-card" data-course="DevOps & Cloud">
+          <span class="course-icon">☁️</span>
+          <div class="course-name">DevOps<br>& Cloud</div>
+        </div>
+        <div class="course-card" data-course="QA Automation">
+          <span class="course-icon">🧪</span>
+          <div class="course-name">QA<br>Automation</div>
+        </div>
+        <div class="course-card" data-course="Backend Engineering">
+          <span class="course-icon">⚙️</span>
+          <div class="course-name">Backend<br>Engineering</div>
+        </div>
+        <div class="course-card" data-course="UI/UX Design">
+          <span class="course-icon">🎨</span>
+          <div class="course-name">UI/UX<br>Design</div>
+        </div>
+        <div class="course-card" data-course="Cybersecurity">
+          <span class="course-icon">🔐</span>
+          <div class="course-name">Cyber<br>Security</div>
+        </div>
+        <div class="course-card" data-course="Android/iOS Dev">
+          <span class="course-icon">📱</span>
+          <div class="course-name">Android/<br>iOS Dev</div>
+        </div>
+      </div>
+
+      <div class="section-divider anim-up"><span>Experience Level</span></div>
+      <div class="chip-group anim-up" id="expChips">
+        <span class="chip" data-val="Absolute Beginner">Absolute Beginner</span>
+        <span class="chip" data-val="Some Coding Knowledge">Some Coding Knowledge</span>
+        <span class="chip" data-val="Intermediate">Intermediate</span>
+        <span class="chip" data-val="Working Professional">Working Professional</span>
+      </div>
+
+      <div class="section-divider anim-up"><span>Preferred Learning Mode</span></div>
+      <div class="chip-group anim-up" id="modeChips">
+        <span class="chip" data-val="Online Self-Paced">🖥 Online Self-Paced</span>
+        <span class="chip" data-val="Online Live Mentored">📡 Online Live + Mentor</span>
+        <span class="chip" data-val="Offline Campus">🏫 Offline Campus</span>
+      </div>
+
+      <div class="field-row anim-up" style="margin-top:24px">
+        <div class="field" id="f-why">
+          <label for="why">Why do you want to join Crio.io?</label>
+          <div class="input-wrap" style="align-items:flex-start">
+            <i class="fa-solid fa-lightbulb icon" style="position:absolute; top:14px"></i>
+            <textarea id="why" style="padding-left:42px" placeholder="Share your motivation in 2-3 sentences..." rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row anim-up">
+        <button class="btn btn-ghost" onclick="goToStep(2)">
+          <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+        <button class="btn btn-primary" onclick="goToStep(4)">
+          Next: Account <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 4: ACCOUNT ===== -->
+    <section class="form-step" id="step4">
+      <div class="step-header anim-up">
+        <div class="step-eyebrow">Step 4 of 5</div>
+        <h2 class="step-title">Create your<br>Crio account</h2>
+        <p class="step-subtitle">This will be your login to access your dashboard and program materials.</p>
+      </div>
+
+      <div class="field-row anim-up">
+        <div class="field" id="f-email">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-envelope icon"></i>
+            <input type="email" id="email" placeholder="rahul@example.com" autocomplete="email">
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+          <span class="field-hint">This will be your login ID</span>
+        </div>
+      </div>
+
+      <div class="field-row anim-up">
+        <div class="field" id="f-password">
+          <label for="password">Create Password</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock icon"></i>
+            <input type="password" id="password" placeholder="At least 8 characters" autocomplete="new-password">
+            <button class="pw-toggle" id="pwToggle" type="button" onclick="togglePw('password','pwToggle')">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          <div class="strength-wrap">
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+            <div class="strength-label" id="strengthLabel">Enter a password to check strength</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row anim-up">
+        <div class="field" id="f-confirm">
+          <label for="confirmPw">Confirm Password</label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock icon"></i>
+            <input type="password" id="confirmPw" placeholder="Repeat your password">
+            <button class="pw-toggle" type="button" onclick="togglePw('confirmPw','pwToggle2')" id="pwToggle2">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <i class="fa-solid fa-check check-icon"></i>
+          </div>
+          <span class="field-hint" id="confirmHint"></span>
+        </div>
+      </div>
+
+      <div class="field-row anim-up">
+        <div class="field" id="f-ref">
+          <label for="referral">Referral Code <span style="color:var(--muted); font-size:10px; text-transform:none; letter-spacing:0">(Optional)</span></label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-gift icon"></i>
+            <input type="text" id="referral" placeholder="e.g. CRIO2025" class="no-icon" style="padding-left:42px">
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row anim-up">
+        <div style="display:flex; align-items:flex-start; gap:10px; padding:14px 16px; background:var(--cream-2); border-radius:var(--r); border: 1px solid var(--border)">
+          <input type="checkbox" id="terms" style="width:16px; min-width:16px; height:16px; margin-top:2px; padding:0; accent-color:var(--accent)">
+          <label for="terms" style="font-size:13px; font-weight:400; text-transform:none; letter-spacing:0; line-height:1.6; color:var(--ink-2); cursor:pointer">
+            I agree to Crio.io's <a href="#" style="color:var(--accent); text-decoration:none; font-weight:500">Terms of Service</a> and <a href="#" style="color:var(--accent); text-decoration:none; font-weight:500">Privacy Policy</a>. I confirm the details provided are accurate.
+          </label>
+        </div>
+      </div>
+
+      <div class="btn-row anim-up">
+        <button class="btn btn-ghost" onclick="goToStep(3)">
+          <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+        <button class="btn btn-primary" onclick="goToStep(5)">
+          Review Application <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== STEP 5: REVIEW ===== -->
+    <section class="form-step" id="step5">
+      <div class="step-header anim-up">
+        <div class="step-eyebrow">Step 5 of 5</div>
+        <h2 class="step-title">Review your<br>application</h2>
+        <p class="step-subtitle">Please verify your details before submitting. You can edit any section.</p>
+      </div>
+
+      <div class="review-section anim-up">
+        <div class="review-section-title">Profile</div>
+        <div class="review-avatar" id="reviewProfile">
+          <img id="reviewPhoto" src="" alt="">
+          <div>
+            <div class="review-avatar-name" id="reviewName">—</div>
+            <div class="review-avatar-email" id="reviewEmail">—</div>
+          </div>
+        </div>
+        <div class="review-grid">
+          <div class="review-item">
+            <div class="review-item-label">Phone</div>
+            <div class="review-item-value" id="r-phone">—</div>
+          </div>
+          <div class="review-item">
+            <div class="review-item-label">Date of Birth</div>
+            <div class="review-item-value" id="r-dob">—</div>
+          </div>
+          <div class="review-item">
+            <div class="review-item-label">Gender</div>
+            <div class="review-item-value" id="r-gender">—</div>
+          </div>
+          <div class="review-item">
+            <div class="review-item-label">City</div>
+            <div class="review-item-value" id="r-city">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-section anim-up">
+        <div class="review-section-title">Education</div>
+        <div class="review-grid">
+          <div class="review-item">
+            <div class="review-item-label">School (10th)</div>
+            <div class="review-item-value" id="r-school">—</div>
+          </div>
+          <div class="review-item">
+            <div class="review-item-label">10th Score</div>
+            <div class="review-item-value" id="r-score10">—</div>
+          </div>
+          <div class="review-item">
+            <div class="review-item-label">College</div>
+            <div class="review-item-value" id="r-college">—</div>
+          </div>
+          <div class="review-item">
+            <div class="review-item-label">Degree</div>
+            <div class="review-item-value" id="r-degree">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-section anim-up">
+        <div class="review-section-title">Program</div>
+        <div class="review-grid">
+          <div class="review-item">
+            <div class="review-item-label">Selected Course</div>
+            <div class="review-item-value" id="r-course">—</div>
+          </div>
+          <div class="review-item">
+            <div class="review-item-label">Experience Level</div>
+            <div class="review-item-value" id="r-exp">—</div>
+          </div>
+          <div class="review-item">
+            <div class="review-item-label">Learning Mode</div>
+            <div class="review-item-value" id="r-mode">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row anim-up" style="flex-direction:column;">
+        <button class="btn btn-success" onclick="submitForm()">
+          <i class="fa-solid fa-paper-plane"></i> Submit My Application
+        </button>
+        <button class="btn btn-ghost" onclick="goToStep(4)" style="margin-top:8px; width:100%; justify-content:center">
+          <i class="fa-solid fa-pen"></i> Edit Details
+        </button>
+      </div>
+    </section>
+
+  </main>
+</div>
+<script src="form_add.js"></script>
+</body>
+</html>
