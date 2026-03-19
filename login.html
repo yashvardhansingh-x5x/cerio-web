@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In — Crio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    /* ─── Variables (mirror your main site) ─── */
+    :root {
+      --cream:   #faf7f2;
+      --cream-2: #f3ede3;
+      --cream-3: #ecddd0;
+      --white:   #ffffff;
+      --ink:     #1a1410;
+      --ink-2:   #3d3530;
+      --muted:   #8a7f78;
+      --accent:  #e8521a;
+      --accent-h:#c94212;
+      --sage:    #4a7c59;
+      --sky:     #2563a8;
+      --border:  rgba(26,20,16,.1);
+      --shadow:  rgba(26,20,16,.08);
+      --r:       14px;
+      --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { height: 100%; }
+
+    body {
+      min-height: 100vh;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Grain texture (same as main site) */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ─── Animations ─── */
+    @keyframes slideDown {
+      from { opacity:0; transform:translateY(-16px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(28px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity:0; }
+      to   { opacity:1; }
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.5; transform:scale(1.4); }
+    }
+    @keyframes float {
+      0%,100% { transform:translateY(0); }
+      50%      { transform:translateY(-9px); }
+    }
+    @keyframes spin-slow {
+      to { transform:rotate(360deg); }
+    }
+    @keyframes shimmer-line {
+      0%   { transform: scaleX(0); transform-origin: left; }
+      100% { transform: scaleX(1); transform-origin: left; }
+    }
+
+    .d1 { animation-delay:.05s; }
+    .d2 { animation-delay:.12s; }
+    .d3 { animation-delay:.2s;  }
+    .d4 { animation-delay:.28s; }
+    .d5 { animation-delay:.36s; }
+    .d6 { animation-delay:.44s; }
+
+    /* ═══════════ NAVBAR (minimal version) ═══════════ */
+    .navbar {
+      background: rgba(250,247,242,.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      animation: slideDown .6s var(--ease) both;
+      flex-shrink: 0;
+    }
+    .nav-inner {
+      width: min(92%, 1120px);
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 0;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px; font-weight: 900; font-style: italic;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+      letter-spacing: -.3px;
+    }
+    .logo-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    .logo em { color: var(--accent); }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 7px;
+      color: var(--muted);
+      font-size: 13.5px; font-weight: 500;
+      text-decoration: none;
+      transition: color .25s, gap .3s var(--ease);
+    }
+    .nav-back:hover { color: var(--ink); gap: 10px; }
+    .nav-back i { font-size: 11px; }
+
+    /* ═══════════ PAGE LAYOUT ═══════════ */
+    .page-wrap {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      min-height: calc(100vh - 57px);
+    }
+
+    /* ═══════════ LEFT PANEL ═══════════ */
+    .left-panel {
+      background: var(--ink);
+      padding: 64px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn .9s var(--ease) .05s both;
+    }
+
+    /* Decorative rings (same as cta-rings on main site) */
+    .panel-rings {
+      position: absolute;
+      bottom: -80px; right: -80px;
+      width: 500px; height: 500px;
+      pointer-events: none;
+    }
+    .panel-rings span {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(232,82,26,.1);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+    }
+    .panel-rings span:nth-child(1) { width:160px; height:160px; animation: spin-slow 28s linear infinite; }
+    .panel-rings span:nth-child(2) { width:280px; height:280px; animation: spin-slow 40s linear infinite reverse; }
+    .panel-rings span:nth-child(3) { width:420px; height:420px; animation: spin-slow 60s linear infinite; }
+
+    /* Accent blob */
+    .panel-blob {
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,82,26,.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .panel-top { position: relative; z-index: 1; }
+
+    .panel-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(232,82,26,.15);
+      border: 1px solid rgba(232,82,26,.25);
+      color: #f4a96a;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+      animation: fadeUp .7s var(--ease) .2s both;
+    }
+    .panel-badge span {
+      width: 6px; height: 6px;
+      background: #f4a96a;
+      border-radius: 50%;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      color: #f1ece6;
+      margin-bottom: 18px;
+      animation: fadeUp .7s var(--ease) .28s both;
+    }
+    .panel-title em { color: var(--accent); font-style: italic; }
+
+    .panel-sub {
+      font-size: 14.5px;
+      color: #8a7f78;
+      line-height: 1.75;
+      max-width: 380px;
+      animation: fadeUp .7s var(--ease) .35s both;
+    }
+
+    /* Divider line */
+    .panel-divider {
+      width: 44px; height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin: 28px 0;
+      animation: shimmer-line .7s var(--ease) .5s both;
+    }
+
+    /* Stats row */
+    .panel-stats {
+      display: flex; gap: 32px;
+      animation: fadeUp .7s var(--ease) .42s both;
+    }
+    .pstat {
+      display: flex; flex-direction: column; gap: 3px;
+    }
+    .pstat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .pstat-label {
+      font-size: 11.5px; color: #6b6058; font-weight: 400;
+    }
+
+    /* Testimonial card */
+    .panel-quote {
+      position: relative; z-index: 1;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: 24px 26px;
+      animation: fadeUp .8s var(--ease) .55s both;
+    }
+    .panel-quote::before {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      color: rgba(244,169,106,.3);
+      line-height: 0;
+      vertical-align: -20px;
+      margin-right: 4px;
+      float: left;
+    }
+    .quote-text {
+      font-size: 13.5px;
+      color: #c9bfb5;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .quote-author {
+      display: flex; align-items: center; gap: 11px;
+    }
+    .quote-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(232,82,26,.2);
+      color: #f4a96a;
+      font-family: 'Playfair Display', serif;
+      font-weight: 800; font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .quote-name { font-size: 13px; font-weight: 600; color: #f1ece6; }
+    .quote-role { font-size: 11.5px; color: #6b6058; }
+
+    /* Floating stat badge */
+    .float-badge {
+      position: absolute;
+      top: 52px; right: -18px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex; align-items: center; gap: 11px;
+      box-shadow: 0 14px 40px rgba(26,20,16,.14);
+      animation: float 4.5s ease-in-out infinite, fadeIn .8s var(--ease) .6s both;
+      z-index: 2;
+    }
+    .fbadge-icon {
+      width: 36px; height: 36px;
+      background: #fff3ee;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: 14px;
+    }
+    .fbadge-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px; font-weight: 700; color: var(--ink);
+    }
+    .fbadge-sub { font-size: 10.5px; color: var(--muted); margin-top: 1px; }
+
+    /* ═══════════ RIGHT PANEL (form) ═══════════ */
+    .right-panel {
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      position: relative;
+    }
+
+    .form-wrap {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form-header { margin-bottom: 32px; animation: fadeUp .7s var(--ease) .1s both; }
+
+    .form-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 1.8px; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .form-eyebrow::before {
+      content: '';
+      width: 22px; height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 3vw, 34px);
+      font-weight: 900;
+      letter-spacing: -.8px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .form-title em { color: var(--accent); font-style: italic; }
+
+    .form-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .form-desc a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(232,82,26,.3);
+      transition: border-color .2s;
+    }
+    .form-desc a:hover { border-color: var(--accent); }
+
+    /* ── Fields ── */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 7px; animation: fadeUp .6s var(--ease) both; }
+
+    .field label {
+      font-size: 12px; font-weight: 600;
+      color: var(--ink-2);
+      letter-spacing: .4px;
+      text-transform: uppercase;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .field label a {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .field label a:hover { color: var(--accent); }
+
+    .input-wrap {
+      position: relative;
+      display: flex; align-items: center;
+    }
+    .input-wrap i.input-icon {
+      position: absolute; left: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      pointer-events: none;
+      transition: color .25s;
+    }
+
+    .field input {
+      width: 100%;
+      height: 48px;
+      padding: 0 44px 0 42px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      background: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14.5px;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .25s, box-shadow .25s, background .25s;
+    }
+    .field input::placeholder { color: #bdb5ae; }
+    .field input:hover { border-color: rgba(26,20,16,.2); }
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(232,82,26,.1);
+      background: #fff;
+    }
+    .field input:focus ~ i.input-icon,
+    .input-wrap:focus-within i.input-icon { color: var(--accent); }
+
+    .pwd-toggle {
+      position: absolute; right: 13px;
+      background: none; border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 6px;
+      display: flex; align-items: center;
+      transition: color .2s;
+    }
+    .pwd-toggle:hover { color: var(--ink); }
+
+    /* Remember me row */
+    .remember-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 26px;
+      animation: fadeUp .6s var(--ease) .32s both;
+    }
+    .remember-row input[type="checkbox"] {
+      width: 17px; height: 17px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .remember-row label {
+      font-size: 13.5px; color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* ── Primary CTA (matches .btn-primary from main site) ── */
+    .btn-submit {
+      width: 100%;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--ink);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: var(--r);
+      cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease), background .25s;
+      margin-bottom: 20px;
+      animation: fadeUp .6s var(--ease) .38s both;
+    }
+    .btn-submit::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg, rgba(255,255,255,.1) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .btn-submit:hover {
+      background: #2d2420;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(26,20,16,.2);
+    }
+    .btn-submit:hover::before { opacity: 1; }
+    .btn-submit:hover .arrow-icon { transform: translateX(3px); }
+    .arrow-icon { font-size: 11px; transition: transform .3s var(--ease); }
+
+    /* ── Divider ── */
+    .or-divider {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 20px;
+      animation: fadeUp .6s var(--ease) .44s both;
+    }
+    .or-divider::before,
+    .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .or-divider span {
+      font-size: 11.5px; color: var(--muted);
+      font-weight: 500; white-space: nowrap;
+    }
+
+    /* ── Social buttons ── */
+    .social-row {
+      display: flex; gap: 10px;
+      margin-bottom: 28px;
+      animation: fadeUp .6s var(--ease) .5s both;
+    }
+    .btn-social {
+      flex: 1;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 44px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      background: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px; font-weight: 500;
+      color: var(--ink-2);
+      cursor: pointer;
+      transition: border-color .25s, background .25s, transform .3s var(--ease), box-shadow .3s var(--ease);
+      text-decoration: none;
+    }
+    .btn-social:hover {
+      border-color: rgba(26,20,16,.25);
+      background: var(--cream-2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+    .btn-social img { width: 16px; height: 16px; }
+
+    /* ── Sign-up prompt ── */
+    .signup-prompt {
+      text-align: center;
+      font-size: 13.5px;
+      color: var(--muted);
+      animation: fadeUp .6s var(--ease) .56s both;
+    }
+    .signup-prompt a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(232,82,26,.3);
+      transition: border-color .2s;
+      margin-left: 4px;
+    }
+    .signup-prompt a:hover { border-color: var(--accent); }
+
+    /* ── Error / success states ── */
+    .field-error {
+      font-size: 12px;
+      color: #c94212;
+      display: flex; align-items: center; gap: 5px;
+      display: none;
+    }
+    .field.has-error input { border-color: #e8521a; box-shadow: 0 0 0 3px rgba(232,82,26,.12); }
+    .field.has-error .field-error { display: flex; }
+
+    /* ─── Footer strip ─── */
+    .form-footer-strip {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 14px 40px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: center; gap: 20px;
+    }
+    .form-footer-strip a {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .form-footer-strip a:hover { color: var(--ink); }
+
+    /* ═══════════ RESPONSIVE ═══════════ */
+    @media (max-width: 880px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .left-panel {
+        padding: 48px 40px;
+        min-height: auto;
+      }
+      .float-badge { display: none; }
+      .panel-rings span:nth-child(3) { display: none; }
+      .right-panel { padding: 48px 28px 80px; }
+      .form-footer-strip { padding: 14px 28px; }
+    }
+    @media (max-width: 480px) {
+      .left-panel { padding: 36px 24px; }
+      .panel-stats { gap: 20px; }
+      .right-panel { padding: 36px 20px 80px; }
+      .social-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <span class="logo-dot"></span>
+        Cri<em>o</em>
+      </a>
+      <a href="/" class="nav-back">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to home
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── Main layout ── -->
+  <div class="page-wrap">
+
+    <!-- ══ Left panel ══ -->
+    <div class="left-panel">
+      <div class="panel-blob"></div>
+      <div class="panel-rings">
+        <span></span><span></span><span></span>
+      </div>
+
+      <!-- Floating stat badge -->
+      <div class="float-badge">
+        <div class="fbadge-icon"><i class="fa-solid fa-chart-line"></i></div>
+        <div>
+          <div class="fbadge-num">3.6×</div>
+          <div class="fbadge-sub">avg. salary hike</div>
+        </div>
+      </div>
+
+      <div class="panel-top">
+        <div class="panel-badge">
+          <span></span>
+          Trusted by 10,000+ developers
+        </div>
+
+        <h1 class="panel-title">
+          Build real skills.<br>
+          Land <em>real</em> jobs.
+        </h1>
+
+        <p class="panel-sub">
+          Join thousands of developers who transformed their careers through hands-on, project-based learning with Crio.
+        </p>
+
+        <div class="panel-divider"></div>
+
+        <div class="panel-stats">
+          <div class="pstat">
+            <span class="pstat-num">10K+</span>
+            <span class="pstat-label">developers trained</span>
+          </div>
+          <div class="pstat">
+            <span class="pstat-num">94%</span>
+            <span class="pstat-label">placement rate</span>
+          </div>
+          <div class="pstat">
+            <span class="pstat-num">400+</span>
+            <span class="pstat-label">hiring partners</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial -->
+      <div class="panel-quote">
+        <p class="quote-text">
+          Crio's project-based approach helped me go from a 2 LPA job to landing a role at a top product company. Worth every rupee.
+        </p>
+        <div class="quote-author">
+          <div class="quote-avatar">AK</div>
+          <div>
+            <div class="quote-name">Aarav Kumar</div>
+            <div class="quote-role">SDE-2 · Razorpay</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ Right panel (form) ══ -->
+    <div class="right-panel">
+      <div class="form-wrap">
+
+        <div class="form-header">
+          <div class="form-eyebrow">Welcome back</div>
+          <h2 class="form-title">Sign in to<br><em>your account</em></h2>
+          <p class="form-desc">
+            New here?
+            <a href="/signup">Create a free account</a> and start building today.
+          </p>
+        </div>
+
+        <form id="loginForm" novalidate>
+          <div class="field-group">
+
+            <!-- Email -->
+            <div class="field d1" id="emailField">
+              <label for="email">Email address</label>
+              <div class="input-wrap">
+                <i class="fa-regular fa-envelope input-icon"></i>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  autocomplete="email"
+                />
+              </div>
+              <span class="field-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                Please enter a valid email address.
+              </span>
+            </div>
+
+            <!-- Password -->
+            <div class="field d2" id="passwordField">
+              <label for="password">
+                Password
+                <a href="/forgot-password">Forgot password?</a>
+              </label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                />
+                <button type="button" class="pwd-toggle" id="pwdToggle" aria-label="Toggle password visibility">
+                  <i class="fa-regular fa-eye" id="pwdIcon"></i>
+                </button>
+              </div>
+              <span class="field-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                Password must be at least 8 characters.
+              </span>
+            </div>
+
+          </div>
+
+          <!-- Remember me -->
+          <div class="remember-row">
+            <input type="checkbox" id="remember" name="remember"/>
+            <label for="remember">Keep me signed in for 30 days</label>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn-submit">
+            Sign in
+            <i class="fa-solid fa-arrow-right arrow-icon"></i>
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="or-divider">
+          <span>or continue with</span>
+        </div>
+
+        <!-- Social -->
+        <div class="social-row">
+          <a href="#" class="btn-social">
+            <!-- Google SVG -->
+            <svg width="16" height="16" viewBox="0 0 48 48">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            Google
+          </a>
+          <a href="#" class="btn-social">
+            <!-- GitHub SVG -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+            GitHub
+          </a>
+          <a href="#" class="btn-social">
+            <!-- LinkedIn SVG -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#0A66C2">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            LinkedIn
+          </a>
+        </div>
+
+        <!-- Sign-up -->
+        <p class="signup-prompt">
+          Don't have an account?
+          <a href="/signup">Create one free</a>
+        </p>
+
+      </div>
+
+      <!-- Footer strip -->
+      <div class="form-footer-strip">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/help">Help Centre</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Password toggle ── */
+    const pwdToggle = document.getElementById('pwdToggle');
+    const pwdInput  = document.getElementById('password');
+    const pwdIcon   = document.getElementById('pwdIcon');
+
+    pwdToggle.addEventListener('click', () => {
+      const isHidden = pwdInput.type === 'password';
+      pwdInput.type = isHidden ? 'text' : 'password';
+      pwdIcon.classList.toggle('fa-eye',        !isHidden);
+      pwdIcon.classList.toggle('fa-eye-slash',   isHidden);
+    });
+
+    /* ── Basic client-side validation ── */
+    const form          = document.getElementById('loginForm');
+    const emailField    = document.getElementById('emailField');
+    const passwordField = document.getElementById('passwordField');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let valid = true;
+
+      const emailVal = document.getElementById('email').value.trim();
+      const pwdVal   = document.getElementById('password').value;
+
+      /* Email */
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        emailField.classList.add('has-error');
+        valid = false;
+      } else {
+        emailField.classList.remove('has-error');
+      }
+
+      /* Password */
+      if (pwdVal.length < 8) {
+        passwordField.classList.add('has-error');
+        valid = false;
+      } else {
+        passwordField.classList.remove('has-error');
+      }
+
+      if (valid) {
+        /* Replace with your real auth call */
+        console.log('Sign-in submitted:', emailVal);
+      }
+    });
+
+    /* Clear error on input */
+    document.getElementById('email').addEventListener('input', () => {
+      emailField.classList.remove('has-error');
+    });
+    document.getElementById('password').addEventListener('input', () => {
+      passwordField.classList.remove('has-error');
+    });
+  </script>
+
+</body>
+</html>
