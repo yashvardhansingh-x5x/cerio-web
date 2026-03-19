@@ -1,166 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crio Layout</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crio.io — Launch Your IT Career</title>
 
-<!-- Font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<!-- CSS -->
-<link rel="stylesheet" href="style.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Remove favicon -->
+    <link rel="icon" href="data:,">
 </head>
 
 <body>
 
-<!-- ===== HEADER ===== -->
-<header class="header">
+<!-- TOP BAR -->
+<div class="top-bar">
+    🎯 See where Crio grads land their first IT jobs.
+    <a href="#">View placement report →</a>
+</div>
 
-<!-- Top Strip -->
-<nav>
-  Find out where Crio grads get placed.
-  <a href="#">Get our placement stats</a>
-  <i class="fa-solid fa-chevron-right"></i>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="container nav-inner">
+        <a href="#" class="logo">
+            <span class="logo-dot"></span>
+            Crio<em>.io</em>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="#programs">Programs</a></li>
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#placements">Placements</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+        </ul>
+
+        <a href="#" class="btn-trial">
+            Book Free Trial <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </div>
 </nav>
 
-<div class="row">
-
-  <!-- Logo -->
-  <div class="logo">
-    <img src="logo.png" alt="Logo" width="110">
-  </div>
-
-  <!-- Nav -->
-  <div class="nav-section">
-
-    <ul class="menu">
-      <li><a href="#">Home <i class="fa-solid fa-angle-down"></i></a></li>
-      <li><a href="#">About <i class="fa-solid fa-angle-down"></i></a></li>
-      <li><a href="#">Contact Us <i class="fa-solid fa-angle-down"></i></a></li>
-      <li><a href="#">Services <i class="fa-solid fa-angle-down"></i></a></li>
-      <li><a href="#">Forms <i class="fa-solid fa-angle-down"></i></a></li>
-    </ul>
-
-    <!-- Buttons -->
-    <a href="#" class="sign">Sign In <i class="fa-solid fa-chevron-right"></i></a>
-    <a href="#" class="book">Book your free Trial</a>
-
-  </div>
-
-</div>
-
-</header>
-
-<!-- ===== HERO ===== -->
-<section class="row second">
-
-<!-- Left -->
-<div class="left">
-
-  <h1>At India’s Top Tech Companies.</h1>
-
-  <h3>
-    Work-experience based learning programs to land your dream tech job
-  </h3>
-
-  <p>Build professional projects like the top 1% tech professionals.</p>
-  <p>Master the latest Fullstack / Backend / Automation tech with real work-experience.</p>
-  <p>Crack your dream role at the best tech companies.</p>
-
-  <!-- Stats -->
-  <div class="cols">
-
+<!-- HERO -->
+<section class="container hero">
     <div>
-      <h1>93%</h1>
-      <h5>Dream role achieved</h5>
+        <h1 class="hero-title">
+            Land Your First <br>
+            <span style="color:#e8521a;">IT Job</span>
+        </h1>
+
+        <p class="hero-sub">
+            Work-experience based learning that turns freshers into job-ready developers.
+        </p>
+
+        <a href="#" class="btn-primary">
+            Start Free Trial <i class="fa-solid fa-arrow-right"></i>
+        </a>
     </div>
 
     <div>
-      <h1>150+</h1>
-      <h5>Hiring partners</h5>
+        <img src="https://t3.ftcdn.net/jpg/04/49/11/52/360_F_449115279_hRSrplGSp1bW9bWIaA4cLmNUFw90RcNb.jpg"
+             style="width:100%; border-radius:16px;">
     </div>
-
-    <div>
-      <h1>1000+</h1>
-      <h5>Projects completed</h5>
-    </div>
-
-    <div>
-      <h1>5000+</h1>
-      <h5>Students trained</h5>
-    </div>
-
-    <div>
-      <h1>4.8★</h1>
-      <h5>Average rating</h5>
-    </div>
-
-  </div>
-
-</div>
-
-<!-- Right -->
-<div class="right">
-  <img src="https://t3.ftcdn.net/jpg/04/49/11/52/360_F_449115279_hRSrplGSp1bW9bWIaA4cLmNUFw90RcNb.jpg" alt="Hero Image">
-</div>
-
 </section>
 
-<!-- ===== DREAM COMPANIES ===== -->
-<section class="row third">
-
-  <h1>
-    Crio Grads <br>
-    Have Cracked Their Dream Careers In
-  </h1>
-
-</section>
-
-<section class="row third">
-
-  <div class="marquee">
-    <h2>Google • Amazon • Microsoft • Flipkart • Paytm • Razorpay • Swiggy</h2>
-  </div>
-
-</section>
-
-<section class="row third">
-
-  <a href="#" class="sign c-sign">Get Your Placement Status</a>
-  <a href="#" class="sign1 c-sign">Apply Now</a>
-
-</section>
-
-
-
-
-
-    
-<!-- ===== LEARNING ===== -->
-<section class="row third">
-
-  <h1>
-    Modern Work <br>
-    Experience-Based <br>
-    Learning Approach
-  </h1>
-
-</section>
-
-<section class="row third">
-
-  <p>
-    At Crio, you learn and grow exactly how you would on a real job. 
-    You start from the fundamentals, receive support from mentors and the community,
-    and build your way to the top through professional work-like Full-stack and
-    Backend web development projects.
-  </p>
-
-</section>
+<!-- FOOTER -->
+<footer>
+    <p>© 2025 Crio.io — Built for developers who ship.</p>
+</footer>
 
 </body>
 </html>
