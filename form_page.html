@@ -100,8 +100,12 @@
 
     <!-- ===== STEP 1: PROFILE ===== -->
     <section class="form-step active" id="step1">
+      <!-- FIX: single clean header — no duplicate close icons, no mis-nested divs -->
       <div class="step-header anim-up">
-        <div class="step-eyebrow">Step 1 of 5</div>
+        <div class="step-header-top">
+          <div class="step-eyebrow">Step 1 of 5</div>
+          <button class="step-close-icon" onclick="goHome()" aria-label="Close">×</button>
+        </div>
         <h2 class="step-title">Let's start with<br>your profile</h2>
         <p class="step-subtitle">Upload your photo and tell us a bit about yourself.</p>
       </div>
@@ -195,7 +199,9 @@
     <!-- ===== STEP 2: EDUCATION ===== -->
     <section class="form-step" id="step2">
       <div class="step-header anim-up">
-        <div class="step-eyebrow">Step 2 of 5</div>
+        <div class="step-header-top">
+          <div class="step-eyebrow">Step 2 of 5</div>
+        </div>
         <h2 class="step-title">Your education<br>background</h2>
         <p class="step-subtitle">Fill in your schooling and college details accurately.</p>
       </div>
@@ -349,7 +355,9 @@
     <!-- ===== STEP 3: PROGRAM ===== -->
     <section class="form-step" id="step3">
       <div class="step-header anim-up">
-        <div class="step-eyebrow">Step 3 of 5</div>
+        <div class="step-header-top">
+          <div class="step-eyebrow">Step 3 of 5</div>
+        </div>
         <h2 class="step-title">Choose your<br>dream program</h2>
         <p class="step-subtitle">Pick the course that aligns with your career goal. You can switch later.</p>
       </div>
@@ -427,7 +435,9 @@
     <!-- ===== STEP 4: ACCOUNT ===== -->
     <section class="form-step" id="step4">
       <div class="step-header anim-up">
-        <div class="step-eyebrow">Step 4 of 5</div>
+        <div class="step-header-top">
+          <div class="step-eyebrow">Step 4 of 5</div>
+        </div>
         <h2 class="step-title">Create your<br>Crio account</h2>
         <p class="step-subtitle">This will be your login to access your dashboard and program materials.</p>
       </div>
@@ -481,7 +491,7 @@
           <label for="referral">Referral Code <span style="color:var(--muted); font-size:10px; text-transform:none; letter-spacing:0">(Optional)</span></label>
           <div class="input-wrap">
             <i class="fa-solid fa-gift icon"></i>
-            <input type="text" id="referral" placeholder="e.g. CRIO2025" class="no-icon" style="padding-left:42px">
+            <input type="text" id="referral" placeholder="e.g. CRIO2025" style="padding-left:42px">
           </div>
         </div>
       </div>
@@ -508,7 +518,9 @@
     <!-- ===== STEP 5: REVIEW ===== -->
     <section class="form-step" id="step5">
       <div class="step-header anim-up">
-        <div class="step-eyebrow">Step 5 of 5</div>
+        <div class="step-header-top">
+          <div class="step-eyebrow">Step 5 of 5</div>
+        </div>
         <h2 class="step-title">Review your<br>application</h2>
         <p class="step-subtitle">Please verify your details before submitting. You can edit any section.</p>
       </div>
@@ -592,8 +604,9 @@
       </div>
     </section>
 
-  </main>
-</div>
+  </main><!-- END panel-right — NO stray divs after this -->
+</div><!-- END page-wrapper -->
+
 <script src="form_add.js"></script>
 </body>
 </html>
