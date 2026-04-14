@@ -791,8 +791,46 @@ body::after {
 }
 .nav-links a:hover { background: var(--cream-2); color: var(--ink); }
 
+.btn-btn-log{
+  display: inline-flex; 
+  align-items: center; 
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 13.5px;
+  letter-spacing: .3px;
+  text-decoration: none;
+  padding: 10px 22px;
+  border-radius: var(--r);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease), background .2s;
+}
+.btn-btn-log:hover { 
+  background: var(--accent-h);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,.15);
+}
+
+.btn-btn-log::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, rgba(255,255,255,.25) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity .3s;
+}
+.btn-btn-log:hover::before {
+  opacity: 1;
+}
+
+
 .btn-trial {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; 
+  align-items: center; 
+  gap: 8px;
   background: var(--accent);
   color: #fff;
   font-family: 'DM Sans', sans-serif;
@@ -2837,6 +2875,11 @@ textarea {
       animation: slideDown .6s var(--ease) both;
       flex-shrink: 0;
     }
+    .navbar.sticky {
+      position: sticky; top: 0; z-index: 100;
+      animation: slideDown .6s var(--ease) both;
+    }
+    
     .nav-inner {
       width: min(92%, 1120px);
       margin: auto;
